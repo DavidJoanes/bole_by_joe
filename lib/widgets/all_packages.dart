@@ -52,7 +52,7 @@ class _AllPacksState extends State<AllPacks> {
             fontWeight: FontWeight.w300));
     return Padding(
       padding: EdgeInsets.symmetric(
-          horizontal: size.width * 0.03, vertical: size.height * 0.05),
+          horizontal: size.width * 0.03, vertical: size.height * 0.03),
       child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
         Text("All Packages", style: fontstyle1),
         SizedBox(height: size.height * 0.02),

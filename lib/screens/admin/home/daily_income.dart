@@ -20,7 +20,9 @@ class DailyIncome extends StatefulWidget {
 class _DailyIncomeState extends State<DailyIncome> {
   final constantValues = Get.find<Constants>();
   late DateTime dateOfIncome = DateTime.now();
+  var monthInNumForm = "";
   var mainDate = "";
+  var mainDate2 = "";
   var startDate;
   var endDate;
   num total = 0;
@@ -36,6 +38,15 @@ class _DailyIncomeState extends State<DailyIncome> {
     final DateTime displayDate = displayFormater.parse(date);
     final String formatted = serverFormater.format(displayDate);
     mainDate = formatted;
+    return date;
+  }
+  
+  String _convertDateTimeDisplay2(String date) {
+    final DateFormat displayFormater = DateFormat('yyyy-MM-dd HH:mm:ss.SSS');
+    final DateFormat serverFormater = DateFormat('yyyy-MM-dd');
+    final DateTime displayDate = displayFormater.parse(date);
+    final String formatted = serverFormater.format(displayDate);
+    mainDate2 = formatted;
     return date;
   }
 
@@ -58,31 +69,43 @@ class _DailyIncomeState extends State<DailyIncome> {
     ];
     if (month == 'jan') {
       month = monthList[0];
+      monthInNumForm = monthList[0];
     } else if (month == 'feb') {
       month = monthList[1];
+      monthInNumForm = monthList[1];
     } else if (month == 'mar') {
       month = monthList[2];
+      monthInNumForm = monthList[2];
     } else if (month == 'apr') {
       month = monthList[3];
+      monthInNumForm = monthList[3];
     } else if (month == 'may') {
       month = monthList[4];
+      monthInNumForm = monthList[4];
     } else if (month == 'jun') {
       month = monthList[5];
+      monthInNumForm = monthList[5];
     } else if (month == 'jul') {
       month = monthList[6];
+      monthInNumForm = monthList[6];
     } else if (month == 'aug') {
       month = monthList[7];
+      monthInNumForm = monthList[7];
     } else if (month == 'sep') {
       month = monthList[8];
+      monthInNumForm = monthList[8];
     } else if (month == 'oct') {
       month = monthList[9];
+      monthInNumForm = monthList[9];
     } else if (month == 'nov') {
       month = monthList[10];
+      monthInNumForm = monthList[10];
     } else if (month == 'dec') {
       month = monthList[11];
+      monthInNumForm = monthList[11];
     }
     for (var data in constantValues.allOrders) {
-      if (year == data["dateplaced"].split('-')[0]) {
+      if (year == data["dateplaced"].split('-')[0] && data["status"] == "delivered") {
         if (month == data["dateplaced"].split('-')[1]) {
           monthData.add(data);
         }
@@ -139,7 +162,7 @@ class _DailyIncomeState extends State<DailyIncome> {
         Padding(
           padding: EdgeInsets.symmetric(horizontal: size.width * 0.05),
           child: ListTile(
-            title: Text("Search by date: $mainDate", style: fontStyle1),
+            title: Text(mainDate.split("-")[1] == monthInNumForm ? "Search by date: $mainDate" : "Search by date: $mainDate2", style: fontStyle1),
             trailing: IconButton(
               tooltip: "Pick a date",
               icon: Icon(Icons.calendar_month_outlined,
@@ -153,6 +176,7 @@ class _DailyIncomeState extends State<DailyIncome> {
                     .then((date) => setState(() {
                           dateOfIncome = date!;
                           _convertDateTimeDisplay(dateOfIncome.toString());
+                          _convertDateTimeDisplay2(dateOfIncome.toString());
                           _fetchDailyIncome(
                               mainDate, widget.month, widget.year);
                         }));

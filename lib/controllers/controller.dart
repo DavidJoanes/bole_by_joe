@@ -13,7 +13,7 @@ class Constants extends GetxController {
   // Paystack key
   String publicKey = "";
   // App version
-  String appVersion = "1.12";
+  String appVersion = "1.11.0";
   // Colors
   Map<int, Color> defaultColor = {
     50: Color(0xFFFFF3E0),

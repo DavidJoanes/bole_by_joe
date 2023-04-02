@@ -78,9 +78,9 @@ fetchOrderCategories() {
   paidOrders.clear();
   podOrders.clear();
   for (var data in constantValues.allOrders) {
-    if (data["paid"]) {
+    if (data["status"] == "delivered" && data["paid"]) {
       paidOrders.add(data);
-    } else {
+    } else if (data["status"] == "delivered" && data["paid"] == false) {
       podOrders.add(data);
     }
   }

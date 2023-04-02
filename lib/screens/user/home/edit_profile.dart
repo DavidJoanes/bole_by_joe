@@ -127,7 +127,7 @@ class _EditProfileState extends State<EditProfile> {
                 child: Text("+234", style: fontStyle1),
               ),
             ),
-            SizedBox(height: size.height * 0.1),
+            SizedBox(height: size.height * 0.02),
           ],
         ),
       ),
@@ -178,7 +178,7 @@ class _EditProfileState extends State<EditProfile> {
               child: Text("+234", style: fontStyle1),
             ),
           ),
-          SizedBox(height: size.height * 0.1),
+          SizedBox(height: size.height * 0.02),
         ],
       ),
     );
@@ -269,7 +269,7 @@ class _EditProfileState extends State<EditProfile> {
           "email": email,
           "firstname": firstname,
           "lastname": lastname,
-          "phone": phone,
+          "phonenumber": phone,
         });
         if (response.data["success"]) {
           setState(() {

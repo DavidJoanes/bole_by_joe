@@ -326,11 +326,12 @@ class _OrderInfoState extends State<OrderInfo> {
                             disabledHint:
                                 Text(constantValues.estimatedDeliveryDay!),
                             value: constantValues.estimatedDeliveryDay,
-                            items: widget.estimatedTimeDuration != ""
-                                ? null
-                                : estimatedDayDurations
-                                    .map(buildestimatedDayDurations)
-                                    .toList(),
+                            items: null,
+                            // widget.estimatedTimeDuration != ""
+                            //     ? null
+                            //     : estimatedDayDurations
+                            //         .map(buildestimatedDayDurations)
+                            //         .toList(),
                             onChanged: (value) async {
                               setState(() {
                                 constantValues.estimatedDeliveryDay = value!;

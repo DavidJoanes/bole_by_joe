@@ -265,7 +265,7 @@ class MaterialAppWithTheme extends StatelessWidget {
       //   brightness: Brightness.light,
       // ),
       // darkTheme: ThemeData(brightness: Brightness.dark),
-      // themeMode: constantValues.isLightTheme ? ThemeMode.light : ThemeMode.dark,
+      // themeMode: constantValues.isDarkTheme ? ThemeMode.dark : ThemeMode.light,
     );
   }
 }

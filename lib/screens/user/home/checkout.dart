@@ -39,6 +39,7 @@ class _CheckOutState extends State<CheckOut> {
   bool podEligibility = false;
   int deliveryFee = 1500;
   int total = 0;
+  var currentTime = DateTime.now();
 
   var nameOfLocations = {
     "",
@@ -427,6 +428,12 @@ class _CheckOutState extends State<CheckOut> {
                 await dio.post("$backendUrl/validate-orderid", data: {
               "orderid": orderid,
             });
+            // if (int.parse(currentTime.toString().split(" ")[1].split(":")[0]) >
+            //     14) {
+            //   return ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+            //       content: Text(
+            //           "Invalid timing!\nSorry, but you aren't allowed to place an order after 14:59 (GMT+01)")));
+            // } else {
             if (response1.data["success"]) {
               await PaystackPopup.openPaystackPopup(
                   email: email,
@@ -487,6 +494,7 @@ class _CheckOutState extends State<CheckOut> {
                   content: Text(
                       "Please, try again!\n${response1.data["message"]}")));
             }
+            // }
           }
         } else {
           ScaffoldMessenger.of(context)
@@ -528,6 +536,12 @@ class _CheckOutState extends State<CheckOut> {
                 await dio.post("$backendUrl/validate-orderid", data: {
               "orderid": orderid,
             });
+            // if (int.parse(currentTime.toString().split(" ")[1].split(":")[0]) >
+            //     14) {
+            //   return ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+            //       content: Text(
+            //           "Invalid timing!\nSorry, but you aren't allowed to place an order after 14:59 (GMT+01)")));
+            // } else {
             if (response1.data["success"]) {
               await PaystackPopup.openPaystackPopup(
                   email: email,
@@ -585,6 +599,7 @@ class _CheckOutState extends State<CheckOut> {
                   content: Text(
                       "Please, try again!\n${response1.data["message"]}")));
             }
+            // }
           }
         } else {
           return ScaffoldMessenger.of(context)
@@ -638,6 +653,13 @@ class _CheckOutState extends State<CheckOut> {
                 await dio.post("$backendUrl/validate-orderid", data: {
               "orderid": orderid,
             });
+            // if (int.parse(currentTime.toString().split(" ")[1].split(":")[0]) >
+            //     14) {
+            // Navigator.of(context).pop();
+            //   return ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+            //       content: Text(
+            //           "Invalid timing!\nSorry, but you aren't allowed to place an order after 14:59 (GMT+01)")));
+            // } else {
             if (response1.data["success"]) {
               constantValues.tempItemsOrdered.clear();
               constantValues.cart.forEach((element) {
@@ -692,6 +714,7 @@ class _CheckOutState extends State<CheckOut> {
                   content: Text(
                       "Please, try again!\n${response1.data["message"]}")));
             }
+            // }
           }
         } else {
           ScaffoldMessenger.of(context)

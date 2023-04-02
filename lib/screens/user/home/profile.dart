@@ -104,7 +104,7 @@ class _ProfileState extends State<Profile> {
                 trailing: Icon(Icons.arrow_right_outlined),
                 onTap: () {},
               ),
-              SizedBox(height: size.height * 0.05),
+              SizedBox(height: size.height * 0.02),
             ],
           )
         : Padding(
