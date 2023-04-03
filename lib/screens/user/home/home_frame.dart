@@ -37,20 +37,20 @@ class _HomeFrameState extends State<HomeFrame> {
   ];
 
   _fetchAllPacks() async {
-      try {
-        var response = await dio.post("$backendUrl2/all-packages");
-        if (response.data["success"]) {
-          setState(() {
-            constantValues.allPackages = response.data["data"];
-          });
-        }
-      } on DioError catch (error) {
-        return Fluttertoast.showToast(
-          msg: error.response!.data["message"],
-          toastLength: Toast.LENGTH_LONG,
-          webPosition: "center",
-        );
+    try {
+      var response = await dio.post("$backendUrl2/all-packages");
+      if (response.data["success"]) {
+        setState(() {
+          constantValues.allPackages = response.data["data"];
+        });
       }
+    } on DioError catch (error) {
+      return Fluttertoast.showToast(
+        msg: error.response!.data["message"],
+        toastLength: Toast.LENGTH_LONG,
+        webPosition: "center",
+      );
+    }
   }
 
   @override
@@ -67,8 +67,7 @@ class _HomeFrameState extends State<HomeFrame> {
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
-    return 
-    constantValues.loading
+    return constantValues.loading
         ? Center(
             child: Padding(
             padding: EdgeInsets.symmetric(vertical: size.height * 0.4),
@@ -77,82 +76,82 @@ class _HomeFrameState extends State<HomeFrame> {
               size: 100,
             ),
           ))
-        : 
-        Scaffold(
+        : Scaffold(
             body: constantValues.userData["accounttype"] != "dispatcher"
                 ? tabs[currentIndex]
                 : tabs2[currentIndex],
-            bottomNavigationBar: constantValues.userData["accounttype"] != "dispatcher"
-                ? FancyBottomBar(
-                    selectedIndex: currentIndex,
-                    type: FancyType.FancyV1,
-                    items: [
-                      FancyItem(
-                        textColor: constantValues.primaryColor,
-                        title: 'Home',
-                        icon: Icon(Icons.home_outlined),
+            bottomNavigationBar:
+                constantValues.userData["accounttype"] != "dispatcher"
+                    ? FancyBottomBar(
+                        selectedIndex: currentIndex,
+                        type: FancyType.FancyV1,
+                        items: [
+                          FancyItem(
+                            textColor: constantValues.primaryColor,
+                            title: 'Home',
+                            icon: Icon(Icons.home_outlined),
+                          ),
+                          FancyItem(
+                            textColor: constantValues.navBarItemColor,
+                            title: 'Orders',
+                            icon: Icon(Icons.shopping_cart_checkout_outlined),
+                          ),
+                          FancyItem(
+                            textColor: constantValues.navBarItemColor,
+                            title: 'Profile',
+                            icon: Icon(Icons.account_circle_outlined),
+                          ),
+                        ],
+                        onItemSelected: (index) {
+                          setState(() {
+                            currentIndex = index;
+                            constantValues.navBarItemColor =
+                                constantValues.primaryColor;
+                          });
+                        },
+                      )
+                    : FancyBottomBar(
+                        selectedIndex: currentIndex,
+                        type: FancyType.FancyV1,
+                        items: [
+                          FancyItem(
+                            textColor: constantValues.primaryColor,
+                            title: 'Home',
+                            icon: Icon(Icons.home_outlined),
+                          ),
+                          FancyItem(
+                            textColor: constantValues.navBarItemColor,
+                            title: 'Orders',
+                            icon: Icon(Icons.shopping_cart_checkout_outlined),
+                          ),
+                          FancyItem(
+                            textColor: constantValues.navBarItemColor,
+                            title: 'Delivery',
+                            icon: Icon(Icons.delivery_dining_outlined),
+                          ),
+                          FancyItem(
+                            textColor: constantValues.navBarItemColor,
+                            title: 'Profile',
+                            icon: Icon(Icons.account_circle_outlined),
+                          ),
+                        ],
+                        onItemSelected: (index) {
+                          setState(() {
+                            currentIndex = index;
+                            constantValues.navBarItemColor =
+                                constantValues.primaryColor;
+                          });
+                          // if (index == 0) {
+                          //   context.goNamed('home');
+                          // } else if (index == 1) {
+                          //   context.goNamed('orders');
+                          // } else if (index == 2) {
+                          //   context.goNamed('delivery');
+                          // } else {
+                          //   context.goNamed('profile');
+                          // }
+                        },
                       ),
-                      FancyItem(
-                        textColor: constantValues.navBarItemColor,
-                        title: 'Order',
-                        icon: Icon(Icons.shopping_cart_checkout_outlined),
-                      ),
-                      FancyItem(
-                        textColor: constantValues.navBarItemColor,
-                        title: 'Profile',
-                        icon: Icon(Icons.account_circle_outlined),
-                      ),
-                    ],
-                    onItemSelected: (index) {
-                      setState(() {
-                        currentIndex = index;
-                        constantValues.navBarItemColor =
-                            constantValues.primaryColor;
-                      });
-                    },
-                  )
-                : FancyBottomBar(
-                    selectedIndex: currentIndex,
-                    type: FancyType.FancyV1,
-                    items: [
-                      FancyItem(
-                        textColor: constantValues.primaryColor,
-                        title: 'Home',
-                        icon: Icon(Icons.home_outlined),
-                      ),
-                      FancyItem(
-                        textColor: constantValues.navBarItemColor,
-                        title: 'Order',
-                        icon: Icon(Icons.shopping_cart_checkout_outlined),
-                      ),
-                      FancyItem(
-                        textColor: constantValues.navBarItemColor,
-                        title: 'Delivery',
-                        icon: Icon(Icons.delivery_dining_outlined),
-                      ),
-                      FancyItem(
-                        textColor: constantValues.navBarItemColor,
-                        title: 'Profile',
-                        icon: Icon(Icons.account_circle_outlined),
-                      ),
-                    ],
-                    onItemSelected: (index) {
-                      setState(() {
-                        currentIndex = index;
-                        constantValues.navBarItemColor =
-                            constantValues.primaryColor;
-                      });
-                      // if (index == 0) {
-                      //   context.goNamed('home');
-                      // } else if (index == 1) {
-                      //   context.goNamed('orders');
-                      // } else if (index == 2) {
-                      //   context.goNamed('delivery');
-                      // } else {
-                      //   context.goNamed('profile');
-                      // }
-                    },
-                  ),
           );
   }
 

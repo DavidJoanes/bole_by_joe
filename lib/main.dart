@@ -260,12 +260,6 @@ class MaterialAppWithTheme extends StatelessWidget {
       routerConfig: _router,
       title: 'Bole by Joe',
       theme: theme.getTheme(),
-      // theme: ThemeData(
-      //   primarySwatch: Colors.orange,
-      //   brightness: Brightness.light,
-      // ),
-      // darkTheme: ThemeData(brightness: Brightness.dark),
-      // themeMode: constantValues.isDarkTheme ? ThemeMode.dark : ThemeMode.light,
     );
   }
 }
