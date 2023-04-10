@@ -276,10 +276,10 @@ class _InputFieldCState extends State<InputFieldC> {
     return TextFieldContainer(
       width: widget.width,
       child: TextFormField(
-        textInputAction: TextInputAction.go,
+        textInputAction: TextInputAction.newline,
         controller: widget.controller,
         maxLines: 10,
-        keyboardType: TextInputType.text,
+        keyboardType: TextInputType.multiline,
         enabled: widget.enabled,
         validator: (value) => value == '' ? "required!" : null,
         style: GoogleFonts.poppins(

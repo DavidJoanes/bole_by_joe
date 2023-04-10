@@ -52,11 +52,8 @@ class _UserSigninState extends State<UserSignin> {
 
   @override
   void initState() {
-    getCredentials();
-    constantValues.emailAddress != null
-        ? emailController.text = constantValues.emailAddress!
-        : '';
     super.initState();
+    getCredentials();
   }
 
   @override
@@ -217,6 +214,7 @@ class _UserSigninState extends State<UserSignin> {
               webPosition: "center",
             );
             setState(() {
+              adminLoggedIn = false;
               constantValues.publicKey = response.data["pk"];
               constantValues.userData = response.data["data"];
             });

@@ -116,7 +116,7 @@ class _AllOrdersState extends State<AllOrders> {
                                       color: constantValues.allOrders[index]
                                                   ["status"] ==
                                               "awaiting rider"
-                                          ? constantValues.yellowColor
+                                          ? constantValues.amberColor
                                           : constantValues.allOrders[index]
                                                       ["status"] ==
                                                   "en-route"

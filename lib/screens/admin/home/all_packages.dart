@@ -97,7 +97,7 @@ class _AllPackagesState extends State<AllPackages> {
     final fontStyle1b =
         GoogleFonts.poppins(textStyle: TextStyle(fontWeight: FontWeight.w400));
     return SizedBox(
-      height: size.height * 0.9,
+      height: size.height,
       child: constantValues.allPackages.isNotEmpty
           ? RefreshIndicator(
               onRefresh: _refresh,
@@ -284,12 +284,22 @@ class _AllPackagesState extends State<AllPackages> {
                   ],
                 ),
               ),
-              SizedBox(height: size.height * 0.05),
+              SizedBox(height: size.height * 0.02),
             ]),
             buttons: [
               TextButton(
                   child: Text("Cancel"),
                   onPressed: () {
+                    setState(() {
+                      packageNameController.text = "";
+                      descriptionController.text = "";
+                      text1Controller.text = "";
+                      text2Controller.text = "";
+                      text3Controller.text = "";
+                      priceController.text = "";
+                      discountController.text = "";
+                      availabilityValueNotifier.value = null;
+                    });
                     Navigator.of(context).pop();
                   }),
               TextButton(
@@ -338,6 +348,16 @@ class _AllPackagesState extends State<AllPackages> {
             if (response.data["success"]) {
               Navigator.of(context).pop();
               Navigator.of(context).pop();
+              setState(() {
+                packageNameController.text = "";
+                descriptionController.text = "";
+                text1Controller.text = "";
+                text2Controller.text = "";
+                text3Controller.text = "";
+                priceController.text = "";
+                discountController.text = "";
+                availabilityValueNotifier.value = null;
+              });
               Fluttertoast.showToast(
                 msg: response.data["message"],
                 toastLength: Toast.LENGTH_LONG,

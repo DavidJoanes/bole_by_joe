@@ -81,7 +81,7 @@ class _BestPackagesState extends State<BestPackages> {
                                 ? size.height * 0.12
                                 : size.height * 0.28,
                             width: widget.isDesktop
-                                ? size.width * 0.35
+                                ? size.width * 0.25
                                 : size.width * 0.55,
                             decoration: BoxDecoration(
                               gradient: LinearGradient(
@@ -121,7 +121,7 @@ class _BestPackagesState extends State<BestPackages> {
                                             style: fontstyle1b),
                                         SizedBox(height: 5),
                                         SizedBox(
-                                          width: size.width*0.23,
+                                          width: widget.isDesktop ? size.width*0.15 : size.width*0.23,
                                           child: Text(
                                             widget.object[index]["text3"],
                                             style: fontstyle1d,

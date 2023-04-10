@@ -194,14 +194,16 @@ class _OrderInfoAdminState extends State<OrderInfoAdmin> {
           child: Column(children: [
             ListTile(
               title: Text("Date placed", style: fontStyle1),
-              subtitle: Text("Time: ${widget.order["timeplaced"].split(".")[0]}",
+              subtitle: Text(
+                  "Time: ${widget.order["timeplaced"].split(".")[0]}",
                   style: fontStyle1b),
               trailing:
                   Text("${widget.order["dateplaced"]}", style: fontStyle1b),
             ),
             ListTile(
               title: Text("Date accepted", style: fontStyle1),
-              subtitle: Text("Time: ${widget.order["timeaccepted"].split(".")[0]}",
+              subtitle: Text(
+                  "Time: ${widget.order["timeaccepted"].split(".")[0]}",
                   style: fontStyle1b),
               trailing:
                   Text("${widget.order["dateaccepted"]}", style: fontStyle1b),
@@ -240,6 +242,13 @@ class _OrderInfoAdminState extends State<OrderInfoAdmin> {
       SizedBox(height: size.height * 0.02),
       ListTile(
         leading: Text("PACKAGES ORDERED", style: fontStyle1),
+        trailing: OverflowBar(
+          children: [
+            Text("Total: "),
+            Text(
+                "${currencyIcon(context).currencySymbol}${widget.order["total"]}"),
+          ],
+        ),
       ),
       SizedBox(
         height: size.height * 0.4,

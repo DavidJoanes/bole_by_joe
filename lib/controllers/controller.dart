@@ -13,7 +13,7 @@ class Constants extends GetxController {
   // Paystack key
   String publicKey = "";
   // App version
-  String appVersion = "1.11.0";
+  String appVersion = "1.10.0";
   // Colors
   Map<int, Color> defaultColor = {
     50: Color(0xFFFFF3E0),
@@ -47,6 +47,7 @@ class Constants extends GetxController {
   var pinkColor = Colors.pink;
   var brownColor = Colors.brown;
   var yellowColor = Colors.yellow;
+  var amberColor = Colors.amber;
   var tealColor = Colors.teal;
 
   // Temporal values

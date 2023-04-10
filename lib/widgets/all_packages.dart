@@ -44,7 +44,9 @@ class _AllPacksState extends State<AllPacks> {
             fontWeight: FontWeight.w600));
     final fontstyle2 = GoogleFonts.poppins(
         textStyle: TextStyle(
-            color: constantValues.whiteColor, fontSize: 12, fontWeight: FontWeight.w600));
+            color: constantValues.whiteColor,
+            fontSize: 12,
+            fontWeight: FontWeight.w600));
     final fontstyle2b = GoogleFonts.poppins(
         textStyle: TextStyle(
             color: constantValues.whiteColor,
@@ -61,13 +63,13 @@ class _AllPacksState extends State<AllPacks> {
             width: size.width,
             child: widget.object.isNotEmpty
                 ? GridView.count(
-                    crossAxisCount: widget.isDesktop ? 3 : 2,
-                    crossAxisSpacing: size.width * 0.04,
+                    crossAxisCount: widget.isDesktop ? 4 : 2,
+                    crossAxisSpacing: size.width * 0.02,
                     children: [
                         for (var item in widget.object)
                           Padding(
                             padding: EdgeInsets.symmetric(
-                                vertical: size.height * 0.02),
+                                vertical: size.height * 0.01),
                             child: Card(
                               elevation: 4,
                               child: InkWell(

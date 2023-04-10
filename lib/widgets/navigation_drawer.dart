@@ -37,17 +37,17 @@ class _CustomDrawerState extends State<CustomDrawer> {
             children: [
               SizedBox(height: size.height * 0.05),
               Image.asset(
-                "assets/icons/admin.png",
+                constantValues.isDarkTheme
+                    ? "assets/icons/admin_white.png"
+                    : "assets/icons/admin_black.png",
                 height: size.height * 0.1,
               ),
               SizedBox(height: size.height * 0.02),
               SizedBox(
-                  width: size.width * 0.5,
-                  child: Text(
-                    "Admin: ${constantValues.userData["email"]}",
-                    style: fontstyle1,
-                    overflow: TextOverflow.ellipsis
-                  )),
+                width: size.width * 0.45,
+                child: Text("Admin: ${constantValues.userData["email"]}",
+                    style: fontstyle1, overflow: TextOverflow.ellipsis),
+              ),
               Divider(),
               SizedBox(height: size.height * 0.02),
               ListTile(

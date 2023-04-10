@@ -3,7 +3,8 @@ import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
-// import 'package:url_strategy/url_strategy.dart';
+import 'package:url_strategy/url_strategy.dart';
+// import 'package:flutter_web_plugins/flutter_web_plugins.dart';
 import 'package:go_router/go_router.dart';
 import 'controllers/controller.dart';
 import 'controllers/theme_modifier.dart';
@@ -27,10 +28,11 @@ import 'screens/user/signup/s/signup.dart';
 import 'package:provider/provider.dart';
 
 void main() {
-  // setPathUrlStrategy();
+  // setUrlStrategy(PathUrlStrategy());
   WidgetsFlutterBinding.ensureInitialized();
   SystemChrome.setPreferredOrientations(
       [DeviceOrientation.portraitUp, DeviceOrientation.portraitDown]);
+  setPathUrlStrategy();
   runApp(MyApp());
 }
 

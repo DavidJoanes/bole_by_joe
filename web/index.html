@@ -53,6 +53,9 @@
 </script>
 
 <body>
+  <div id="loading_indicator" class="loading">
+    <div class="loader"></div>
+  </div>
   <script src="https://js.paystack.co/v1/inline.js"></script>
   <script src="paystack_interop.js"></script>
   <script>
@@ -74,4 +77,59 @@
   <link href='https://api.mapbox.com/mapbox-gl-js/v2.7.0/mapbox-gl.css' rel='stylesheet' /> -->
   <!-- <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBXA6OquMUfDgC1HobD9SXa6UrSrmn89iA"></script> -->
 </body>
+<style>
+  .loading {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: 0;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    -ms-transform: translate(-50%, -50%);
+    transform: translate(-50%, -50%);
+  }
+  
+  .loader {
+    border: 16px solid #f3f3f3;
+  border-radius: 50%;
+  border: 15px solid ;
+  border-top: 16px solid orange;
+  border-right: 16px solid white;
+  border-bottom: 16px solid orange;
+  border-left: 16px solid white;
+  width: 120px;
+  height: 120px;
+  -webkit-animation: spin 1s linear infinite;
+  animation: spin 1s linear infinite;
+  }
+
+  @-webkit-keyframes spin {
+  0% {
+    -webkit-transform: rotate(0deg);
+  }
+  100% {
+    -webkit-transform: rotate(360deg);
+  }
+  }
+
+  @keyframes spin {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+  }
+</style>
+<script>
+  window.onload = function() {
+    setTimeout(function() {
+      var loader = document.getElementById("loading_indicator")
+      if (loader) {
+        loader.remove();
+      }
+    }, 10000);
+  }
+</script>
 </html>

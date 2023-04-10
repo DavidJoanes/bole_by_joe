@@ -509,7 +509,7 @@ class _AdminDashboardState extends State<AdminDashboard> {
                 alignment: MainAxisAlignment.spaceBetween,
                 children: [
                   Container(
-                    width: size.width * 0.45,
+                    width: size.width * 0.4,
                     decoration: BoxDecoration(
                       borderRadius: BorderRadius.circular(10),
                     ),
@@ -537,7 +537,7 @@ class _AdminDashboardState extends State<AdminDashboard> {
                     ),
                   ),
                   Container(
-                    width: size.width * 0.45,
+                    width: size.width * 0.4,
                     decoration: BoxDecoration(
                       borderRadius: BorderRadius.circular(10),
                     ),

@@ -104,7 +104,7 @@ class _ProfileState extends State<Profile> {
                 trailing: Icon(Icons.arrow_right_outlined),
                 onTap: () {},
               ),
-              SizedBox(height: size.height * 0.02),
+              SizedBox(height: size.height * 0.01),
             ],
           )
         : Padding(
@@ -181,7 +181,7 @@ class _ProfileState extends State<Profile> {
                 trailing: Icon(Icons.arrow_right_outlined),
                 onTap: () {},
               ),
-              SizedBox(height: size.height * 0.05),
+              SizedBox(height: size.height * 0.01),
             ],
           )
         : Padding(
@@ -242,8 +242,10 @@ class _ProfileState extends State<Profile> {
                   radius: isDesktop ? size.width * 0.07 : size.width * 0.12,
                   onClicked: () {
                     Navigator.of(context).push(OverlayBuilder(
-                        builder: (context) =>
-                            DisplayImage(image: image.startsWith("a") ? AssetImage(image) : NetworkImage(image))));
+                        builder: (context) => DisplayImage(
+                            image: image.startsWith("a")
+                                ? AssetImage(image)
+                                : NetworkImage(image))));
                   },
                 ),
               ),

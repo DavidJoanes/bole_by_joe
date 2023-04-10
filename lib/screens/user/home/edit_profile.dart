@@ -283,10 +283,12 @@ class _EditProfileState extends State<EditProfile> {
           Navigator.of(context).pop();
           context.goNamed("home");
         } else {
+          Navigator.of(context).pop();
           return ScaffoldMessenger.of(context)
               .showSnackBar(SnackBar(content: Text(response.data["message"])));
         }
       } on DioError catch (error) {
+        Navigator.of(context).pop();
         return ScaffoldMessenger.of(context).showSnackBar(
             SnackBar(content: Text(error.response!.data["message"])));
       }

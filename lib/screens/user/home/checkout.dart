@@ -31,6 +31,7 @@ class _CheckOutState extends State<CheckOut> {
   final constantValues = Get.find<Constants>();
   final _formKey = GlobalKey<FormState>();
   Dio dio = Dio();
+  var currentTime = DateTime.now();
   final cityController = TextEditingController();
   final addressController = TextEditingController();
   final apartmentController = TextEditingController();
@@ -39,7 +40,6 @@ class _CheckOutState extends State<CheckOut> {
   bool podEligibility = false;
   int deliveryFee = 1500;
   int total = 0;
-  var currentTime = DateTime.now();
 
   var nameOfLocations = {
     "",
@@ -143,7 +143,8 @@ class _CheckOutState extends State<CheckOut> {
                               builder: (context) => Dialog1(
                                   title: Text(
                                       """MODE OF PAYMENT:\nPlease note that to be eligible for 'Pay on Delivery(PoD)' feature, you must have at least ten(10) successful orders made priviously.
-                                                \n\nDELIVERY DESTINATION:\nPlease note that 'None' as a delivery destination simply means that you are currently in person at any of our respective shops when making this payment, and as such your order won't require delivery and will immediately be marked as 'delivered'. Please visit our 'Policy>>Payment Policy' in your profile to get more information about our policies.""",
+                                                \n\nDELIVERY DESTINATION:\nPlease note that 'None' as a delivery destination simply means that you are currently in person at any of our respective shops when making this payment, and as such your order won't require delivery and will immediately be marked as 'delivered'. Please visit our 'Policy>>Payment Policy' in your profile to get more information about our policies.
+                                                \n\nDELIVERY FEE:\nPlease, note that delivery fee for addresses within Alakahia and Choba is subsidized at ${currencyIcon(context).currencySymbol}500.00, while the delivery fee for addresses outside these two locations are fixed at ${currencyIcon(context).currencySymbol}1,500.00""",
                                       style: fontStyle1b)));
                         },
                       ),
@@ -420,7 +421,7 @@ class _CheckOutState extends State<CheckOut> {
             if ((address.toLowerCase()).contains("choba") ||
                 (address.toLowerCase()).contains("alakahia")) {
               setState(() {
-                deliveryFee = 0;
+                deliveryFee = 500;
                 total = widget.subTotal + deliveryFee;
               });
             }
@@ -639,7 +640,7 @@ class _CheckOutState extends State<CheckOut> {
             if ((address.toLowerCase()).contains("choba") ||
                 (address.toLowerCase()).contains("alakahia")) {
               setState(() {
-                deliveryFee = 0;
+                deliveryFee = 500;
                 total = widget.subTotal + deliveryFee;
               });
             }
