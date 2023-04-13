@@ -2,6 +2,7 @@
 
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:get/get.dart';
 import 'package:go_router/go_router.dart';
@@ -9,6 +10,7 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:intl/intl.dart';
 
 import '../../../widgets/buttons.dart';
+import '../../../widgets/profile_picture.dart';
 import '../../../widgets/reviews.dart';
 import '../../../widgets/title_case.dart';
 import '../../../controllers/controller.dart';
@@ -47,6 +49,22 @@ class _PackageDetailsState extends State<PackageDetails> {
   int qty = 1;
   late int price = widget.price;
   late int discounted = widget.discount * widget.price;
+  int subTotal = 0;
+
+  _calculateTotal() {
+    subTotal = 0;
+    if (constantValues.cart.isNotEmpty) {
+      for (var item in constantValues.cart) {
+        setState(() {
+          subTotal += item["price"] as int;
+        });
+      }
+    } else {
+      setState(() {
+        subTotal = 0;
+      });
+    }
+  }
 
   currencyIcon(context) {
     var format = NumberFormat.simpleCurrency(name: "NGN");
@@ -202,99 +220,194 @@ class _PackageDetailsState extends State<PackageDetails> {
         GoogleFonts.poppins(textStyle: TextStyle(fontWeight: FontWeight.w600));
     final fontStyle1b =
         GoogleFonts.poppins(textStyle: TextStyle(fontWeight: FontWeight.w400));
-    return Padding(
-      padding: EdgeInsets.symmetric(horizontal: size.width * 0.12),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Padding(
-            padding: EdgeInsets.symmetric(
-                vertical: size.height * 0.02, horizontal: size.width * 0.02),
-            child: Column(
-              children: [
-                SizedBox(
-                  height: size.height * 0.6,
-                  child: CarouselSlider(
-                    options: CarouselOptions(
-                        autoPlay: true,
-                        autoPlayInterval: Duration(seconds: 3),
-                        autoPlayAnimationDuration: Duration(milliseconds: 500),
-                        height: size.height * 0.6,
-                        onPageChanged: (index, reason) {
-                          setState(() {
-                            currentIndex = index;
-                          });
-                        }),
-                    items: widget.packageImages.map<Widget>((item) {
-                      return GridTile(
-                        child: Card(
-                          child: Container(
-                            height: size.height * 0.5,
-                            width: size.width * 0.5,
-                            decoration: BoxDecoration(
-                              image: DecorationImage(
-                                  image: AssetImage(item), fit: BoxFit.cover),
-                              borderRadius: BorderRadius.circular(5),
-                            ),
-                          ),
-                        ),
-                      );
-                    }).toList(),
-                  ),
-                ),
-                SizedBox(height: size.height * 0.01),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    for (int i = 0; i < widget.packageImages.length; i++)
-                      Container(
-                        height: 12,
-                        width: 12,
-                        margin: EdgeInsets.all(10),
-                        decoration: BoxDecoration(
-                            color: currentIndex == i
-                                ? constantValues.primaryColor
-                                : constantValues.whiteColor,
-                            shape: BoxShape.circle,
-                            boxShadow: const [
-                              BoxShadow(
-                                  color: Colors.grey,
-                                  blurRadius: 2,
-                                  spreadRadius: 1,
-                                  offset: Offset(2, 2))
-                            ]),
-                      )
-                  ],
-                )
-              ],
-            ),
-          ),
-          SizedBox(height: size.height * 0.01),
-          ListTile(
-            title: Text(widget.packageName, style: fontStyle1),
-            subtitle: Text(widget.availability ? "available" : "unavailable"),
-            trailing: widget.availability
-                ? Icon(Icons.gpp_good_outlined,
-                    color: constantValues.successColor)
-                : Icon(Icons.gpp_bad_outlined,
-                    color: constantValues.errorColor),
-          ),
-          SizedBox(height: size.height * 0.01),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.start,
+    return Row(
+      children: [
+        SizedBox(
+          width: size.width * 0.75,
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Icon(Icons.star, color: constantValues.primaryColor),
-              SizedBox(width: 5),
-              Text("${widget.rating.toStringAsFixed(1)}", style: fontStyle1b),
+              Padding(
+                padding: EdgeInsets.symmetric(
+                    vertical: size.height * 0.02,
+                    horizontal: size.width * 0.05),
+                child: Column(
+                  children: [
+                    SizedBox(
+                      height: size.height * 0.6,
+                      child: CarouselSlider(
+                        options: CarouselOptions(
+                            autoPlay: true,
+                            autoPlayInterval: Duration(seconds: 3),
+                            autoPlayAnimationDuration:
+                                Duration(milliseconds: 500),
+                            height: size.height * 0.6,
+                            onPageChanged: (index, reason) {
+                              setState(() {
+                                currentIndex = index;
+                              });
+                            }),
+                        items: widget.packageImages.map<Widget>((item) {
+                          return GridTile(
+                            child: Card(
+                              child: Container(
+                                height: size.height * 0.5,
+                                width: size.width * 0.5,
+                                decoration: BoxDecoration(
+                                  image: DecorationImage(
+                                      image: NetworkImage(item),
+                                      fit: BoxFit.cover),
+                                  borderRadius: BorderRadius.circular(5),
+                                ),
+                              ),
+                            ),
+                          );
+                        }).toList(),
+                      ),
+                    ),
+                    SizedBox(height: size.height * 0.01),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        for (int i = 0; i < widget.packageImages.length; i++)
+                          Container(
+                            height: 12,
+                            width: 12,
+                            margin: EdgeInsets.all(10),
+                            decoration: BoxDecoration(
+                                color: currentIndex == i
+                                    ? constantValues.primaryColor
+                                    : constantValues.whiteColor,
+                                shape: BoxShape.circle,
+                                boxShadow: const [
+                                  BoxShadow(
+                                      color: Colors.grey,
+                                      blurRadius: 2,
+                                      spreadRadius: 1,
+                                      offset: Offset(2, 2))
+                                ]),
+                          )
+                      ],
+                    )
+                  ],
+                ),
+              ),
+              SizedBox(height: size.height * 0.01),
+              Padding(
+                padding: EdgeInsets.symmetric(horizontal: size.width*0.05),
+                child: ListTile(
+                  title: Text(widget.packageName, style: fontStyle1),
+                  subtitle:
+                      Text(widget.availability ? "available" : "unavailable"),
+                  trailing: widget.availability
+                      ? Icon(Icons.gpp_good_outlined,
+                          color: constantValues.successColor)
+                      : Icon(Icons.gpp_bad_outlined,
+                          color: constantValues.errorColor),
+                ),
+              ),
+              SizedBox(height: size.height * 0.01),
+              Padding(
+                padding: EdgeInsets.symmetric(horizontal: size.width*0.05),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  children: [
+                    Icon(Icons.star, color: constantValues.primaryColor),
+                    SizedBox(width: 5),
+                    Text("${widget.rating.toStringAsFixed(1)}",
+                        style: fontStyle1b),
+                  ],
+                ),
+              ),
+              SizedBox(height: size.height * 0.03),
+              Padding(
+                padding: EdgeInsets.symmetric(horizontal: size.width*0.05),
+                child: description("Description", widget.description),
+              ),
+              SizedBox(height: size.height * 0.01),
+              Padding(
+                padding: EdgeInsets.symmetric(horizontal: size.width*0.05),
+                child: Reviews(reviews: widget.reviews),
+              ),
+              SizedBox(height: size.height * 0.05),
             ],
           ),
-          SizedBox(height: size.height * 0.03),
-          description("Description", widget.description),
-          SizedBox(height: size.height * 0.01),
-          Reviews(reviews: widget.reviews),
-          SizedBox(height: size.height * 0.05),
-        ],
-      ),
+        ),
+        SizedBox(
+            width: size.width * 0.25,
+            child: Column(
+              children: [
+                ListTile(
+                  title: Text("Cart", style: fontStyle1),
+                  trailing: IconButton(
+                    icon: Icon(Icons.info_outline,
+                        color: constantValues.errorColor),
+                    onPressed: () {
+                      ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                          content:
+                              Text("Swipe left to remove item from cart..")));
+                    },
+                  ),
+                ),
+                SizedBox(
+                  height: size.height,
+                  child: constantValues.cart.isNotEmpty
+                      ? ListView.builder(
+                          scrollDirection: Axis.vertical,
+                          itemCount: constantValues.cart.length,
+                          itemBuilder: (context, index) {
+                            return Padding(
+                              padding: EdgeInsets.symmetric(
+                                  vertical: size.height * 0.01,
+                                  horizontal: size.width * 0.02),
+                              child: Slidable(
+                                key: ValueKey(index),
+                                endActionPane: ActionPane(
+                                  motion: BehindMotion(),
+                                  children: [
+                                    SlidableAction(
+                                      onPressed: (context) => _remove(index),
+                                      backgroundColor:
+                                          constantValues.errorColor,
+                                      foregroundColor:
+                                          constantValues.whiteColor,
+                                      icon: Icons.delete,
+                                      label: "remove",
+                                    ),
+                                  ],
+                                ),
+                                child: Card(
+                                  elevation: 4,
+                                  child: ListTile(
+                                    leading: ProfilePicture(
+                                      radius: 20,
+                                      image: constantValues.cart[index]
+                                          ["coverimage"]["url"],
+                                      onClicked: () {},
+                                    ),
+                                    title: Text(
+                                        (constantValues.cart[index]
+                                                ["packagename"] as String)
+                                            .toTitleCase(),
+                                        style: fontStyle1),
+                                    subtitle: Text(
+                                        "Qty: ${constantValues.cart[index]["qty"]}"),
+                                    trailing: Text(
+                                      "${currencyIcon(context).currencySymbol}${constantValues.cart[index]["price"]}",
+                                      style: fontStyle1,
+                                    ),
+                                  ),
+                                ),
+                              ),
+                            );
+                          })
+                      : Center(
+                          child:
+                              Text("Your cart is empty..", style: fontStyle1b)),
+                )
+              ],
+            ))
+      ],
     );
   }
 
@@ -373,7 +486,8 @@ class _PackageDetailsState extends State<PackageDetails> {
           ),
           SizedBox(height: size.height * 0.01),
           ListTile(
-            title: Text((widget.packageName as String).toTitleCase(), style: fontStyle1),
+            title: Text((widget.packageName as String).toTitleCase(),
+                style: fontStyle1),
             subtitle: Text(widget.availability ? "available" : "unavailable"),
             trailing: widget.availability
                 ? Icon(Icons.gpp_good_outlined,
@@ -458,6 +572,17 @@ class _PackageDetailsState extends State<PackageDetails> {
     } else {
       return ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(content: Text("${widget.packageName} is out of stock!")));
+    }
+  }
+
+  _remove(index) {
+    for (var item in constantValues.cart) {
+      if (constantValues.cart[index]["packagename"] == item["packagename"]) {
+        setState(() {
+          constantValues.cart.remove(item);
+          _calculateTotal();
+        });
+      }
     }
   }
 }

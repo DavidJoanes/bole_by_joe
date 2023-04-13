@@ -144,7 +144,7 @@ class _CheckOutState extends State<CheckOut> {
                                   title: Text(
                                       """MODE OF PAYMENT:\nPlease note that to be eligible for 'Pay on Delivery(PoD)' feature, you must have at least ten(10) successful orders made priviously.
                                                 \n\nDELIVERY DESTINATION:\nPlease note that 'None' as a delivery destination simply means that you are currently in person at any of our respective shops when making this payment, and as such your order won't require delivery and will immediately be marked as 'delivered'. Please visit our 'Policy>>Payment Policy' in your profile to get more information about our policies.
-                                                \n\nDELIVERY FEE:\nPlease, note that delivery fee for addresses within Alakahia and Choba is subsidized at ${currencyIcon(context).currencySymbol}500.00, while the delivery fee for addresses outside these two locations are fixed at ${currencyIcon(context).currencySymbol}1,500.00""",
+                                                \n\nDELIVERY FEE:\nPlease, note that delivery fee for addresses within Alakahia and Choba is subsidized at ${currencyIcon(context).currencySymbol}500.00, while the delivery fee for addresses outside these two locations is fixed at ${currencyIcon(context).currencySymbol}1,500.00""",
                                       style: fontStyle1b)));
                         },
                       ),
@@ -429,73 +429,73 @@ class _CheckOutState extends State<CheckOut> {
                 await dio.post("$backendUrl/validate-orderid", data: {
               "orderid": orderid,
             });
-            // if (int.parse(currentTime.toString().split(" ")[1].split(":")[0]) >
-            //     14) {
-            //   return ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-            //       content: Text(
-            //           "Invalid timing!\nSorry, but you aren't allowed to place an order after 14:59 (GMT+01)")));
-            // } else {
-            if (response1.data["success"]) {
-              await PaystackPopup.openPaystackPopup(
-                  email: email,
-                  amount: "${total}00",
-                  ref: _generateRef(),
-                  onClosed: () {
-                    debugPrint("Error occured!");
-                  },
-                  onSuccess: () async {
-                    constantValues.tempItemsOrdered.clear();
-                    constantValues.cart.forEach((element) {
-                      constantValues.tempItemsOrdered.add(element);
-                    });
-                    try {
-                      var response2 =
-                          await dio.post("$backendUrl/place-order", data: {
-                        "email": email,
-                        "orderid": orderid,
-                        "status": "awaiting rider",
-                        "owneremail": email,
-                        "ownerfullname": fullname,
-                        "ownerphonenumber": phone,
-                        "deliveryaddress": address,
-                        "closestlandmark": landmark,
-                        "apartment": apartment,
-                        "city": city,
-                        "province": province,
-                        "country": country,
-                        "paid": podEligibility &&
-                                constantValues.modeOfPayment ==
-                                    "Pay on delivery"
-                            ? false
-                            : true,
-                        "items": constantValues.tempItemsOrdered,
-                        "total": total,
-                      });
-                      if (response2.data["success"]) {
-                        Navigator.of(context).pop();
-                        constantValues.cart.clear();
-                        Fluttertoast.showToast(
-                          msg: response2.data["message"],
-                          toastLength: Toast.LENGTH_LONG,
-                          webPosition: "center",
-                        );
-                        context.goNamed("home");
-                      } else {
-                        ScaffoldMessenger.of(context).showSnackBar(
-                            SnackBar(content: Text(response2.data["message"])));
-                      }
-                    } on DioError catch (error) {
-                      ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-                          content: Text(error.response!.data["message"])));
-                    }
-                  });
-            } else {
-              Navigator.of(context).pop();
+            if (int.parse(currentTime.toString().split(" ")[1].split(":")[0]) >
+                13) {
               return ScaffoldMessenger.of(context).showSnackBar(SnackBar(
                   content: Text(
-                      "Please, try again!\n${response1.data["message"]}")));
+                      "Invalid timing!\nSorry, but you aren't allowed to place an order after 13:59 (GMT+01)")));
+            } else {
+              if (response1.data["success"]) {
+                await PaystackPopup.openPaystackPopup(
+                    email: email,
+                    amount: "${total}00",
+                    ref: _generateRef(),
+                    onClosed: () {
+                      debugPrint("Error occured!");
+                    },
+                    onSuccess: () async {
+                      constantValues.tempItemsOrdered.clear();
+                      constantValues.cart.forEach((element) {
+                        constantValues.tempItemsOrdered.add(element);
+                      });
+                      try {
+                        var response2 =
+                            await dio.post("$backendUrl/place-order", data: {
+                          "email": email,
+                          "orderid": orderid,
+                          "status": "awaiting rider",
+                          "owneremail": email,
+                          "ownerfullname": fullname,
+                          "ownerphonenumber": phone,
+                          "deliveryaddress": address,
+                          "closestlandmark": landmark,
+                          "apartment": apartment,
+                          "city": city,
+                          "province": province,
+                          "country": country,
+                          "paid": podEligibility &&
+                                  constantValues.modeOfPayment ==
+                                      "Pay on delivery"
+                              ? false
+                              : true,
+                          "items": constantValues.tempItemsOrdered,
+                          "total": total,
+                        });
+                        if (response2.data["success"]) {
+                          Navigator.of(context).pop();
+                          constantValues.cart.clear();
+                          Fluttertoast.showToast(
+                            msg: response2.data["message"],
+                            toastLength: Toast.LENGTH_LONG,
+                            webPosition: "center",
+                          );
+                          context.goNamed("home");
+                        } else {
+                          ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                              content: Text(response2.data["message"])));
+                        }
+                      } on DioError catch (error) {
+                        ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                            content: Text(error.response!.data["message"])));
+                      }
+                    });
+              } else {
+                Navigator.of(context).pop();
+                return ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                    content: Text(
+                        "Please, try again!\n${response1.data["message"]}")));
+              }
             }
-            // }
           }
         } else {
           ScaffoldMessenger.of(context)
@@ -537,70 +537,70 @@ class _CheckOutState extends State<CheckOut> {
                 await dio.post("$backendUrl/validate-orderid", data: {
               "orderid": orderid,
             });
-            // if (int.parse(currentTime.toString().split(" ")[1].split(":")[0]) >
-            //     14) {
-            //   return ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-            //       content: Text(
-            //           "Invalid timing!\nSorry, but you aren't allowed to place an order after 14:59 (GMT+01)")));
-            // } else {
-            if (response1.data["success"]) {
-              await PaystackPopup.openPaystackPopup(
-                  email: email,
-                  amount: "${total}00",
-                  ref: _generateRef(),
-                  onClosed: () {
-                    debugPrint("Error occured!");
-                  },
-                  onSuccess: () async {
-                    try {
-                      var response2 =
-                          await dio.post("$backendUrl/place-order", data: {
-                        "email": email,
-                        "orderid": orderid,
-                        "status": "delivered",
-                        "owneremail": email,
-                        "ownerfullname": fullname,
-                        "ownerphonenumber": phone,
-                        "deliveryaddress": "nil",
-                        "closestlandmark": "nil",
-                        "apartment": "nil",
-                        "city": "",
-                        "province": "",
-                        "country": "",
-                        "paid": podEligibility &&
-                                constantValues.modeOfPayment ==
-                                    "Pay on delivery"
-                            ? false
-                            : true,
-                        "items": constantValues.tempItemsOrdered,
-                        "total": total,
-                      });
-                      if (response2.data["success"]) {
-                        Navigator.of(context).pop();
-                        constantValues.cart.clear();
-                        Fluttertoast.showToast(
-                          msg: response2.data["message"],
-                          toastLength: Toast.LENGTH_LONG,
-                          webPosition: "center",
-                        );
-                        context.goNamed("home");
-                      } else {
-                        ScaffoldMessenger.of(context).showSnackBar(
-                            SnackBar(content: Text(response2.data["message"])));
-                        await _pay();
-                      }
-                    } on DioError catch (error) {
-                      ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-                          content: Text(error.response!.data["message"])));
-                    }
-                  });
-            } else {
-              Navigator.of(context).pop();
+            if (int.parse(currentTime.toString().split(" ")[1].split(":")[0]) >
+                13) {
               return ScaffoldMessenger.of(context).showSnackBar(SnackBar(
                   content: Text(
-                      "Please, try again!\n${response1.data["message"]}")));
+                      "Invalid timing!\nSorry, but you aren't allowed to place an order after 13:59 (GMT+01)")));
+            } else {
+              if (response1.data["success"]) {
+                await PaystackPopup.openPaystackPopup(
+                    email: email,
+                    amount: "${total}00",
+                    ref: _generateRef(),
+                    onClosed: () {
+                      debugPrint("Error occured!");
+                    },
+                    onSuccess: () async {
+                      try {
+                        var response2 =
+                            await dio.post("$backendUrl/place-order", data: {
+                          "email": email,
+                          "orderid": orderid,
+                          "status": "delivered",
+                          "owneremail": email,
+                          "ownerfullname": fullname,
+                          "ownerphonenumber": phone,
+                          "deliveryaddress": "nil",
+                          "closestlandmark": "nil",
+                          "apartment": "nil",
+                          "city": "",
+                          "province": "",
+                          "country": "",
+                          "paid": podEligibility &&
+                                  constantValues.modeOfPayment ==
+                                      "Pay on delivery"
+                              ? false
+                              : true,
+                          "items": constantValues.tempItemsOrdered,
+                          "total": total,
+                        });
+                        if (response2.data["success"]) {
+                          Navigator.of(context).pop();
+                          constantValues.cart.clear();
+                          Fluttertoast.showToast(
+                            msg: response2.data["message"],
+                            toastLength: Toast.LENGTH_LONG,
+                            webPosition: "center",
+                          );
+                          context.goNamed("home");
+                        } else {
+                          ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                              content: Text(response2.data["message"])));
+                          await _pay();
+                        }
+                      } on DioError catch (error) {
+                        ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                            content: Text(error.response!.data["message"])));
+                      }
+                    });
+              } else {
+                Navigator.of(context).pop();
+                return ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                    content: Text(
+                        "Please, try again!\n${response1.data["message"]}")));
+              }
             }
-            // }
           }
         } else {
           return ScaffoldMessenger.of(context)
@@ -654,68 +654,68 @@ class _CheckOutState extends State<CheckOut> {
                 await dio.post("$backendUrl/validate-orderid", data: {
               "orderid": orderid,
             });
-            // if (int.parse(currentTime.toString().split(" ")[1].split(":")[0]) >
-            //     14) {
-            // Navigator.of(context).pop();
-            //   return ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-            //       content: Text(
-            //           "Invalid timing!\nSorry, but you aren't allowed to place an order after 14:59 (GMT+01)")));
-            // } else {
-            if (response1.data["success"]) {
-              constantValues.tempItemsOrdered.clear();
-              constantValues.cart.forEach((element) {
-                constantValues.tempItemsOrdered.add(element);
-              });
-              try {
-                var response2 =
-                    await dio.post("$backendUrl/place-order", data: {
-                  "email": email,
-                  "orderid": orderid,
-                  "status": "awaiting rider",
-                  "owneremail": email,
-                  "ownerfullname": fullname,
-                  "ownerphonenumber": phone,
-                  "deliveryaddress": address,
-                  "closestlandmark": landmark,
-                  "apartment": apartment,
-                  "city": city,
-                  "province": province,
-                  "country": country,
-                  "paid": podEligibility &&
-                          constantValues.modeOfPayment == "Pay on delivery"
-                      ? false
-                      : true,
-                  "items": constantValues.tempItemsOrdered,
-                  "total": total,
-                });
-                if (response2.data["success"]) {
-                  Navigator.of(context).pop();
-                  Navigator.of(context).pop();
-                  constantValues.cart.clear();
-                  Fluttertoast.showToast(
-                    msg: response2.data["message"],
-                    toastLength: Toast.LENGTH_LONG,
-                    webPosition: "center",
-                  );
-                  context.goNamed("home");
-                } else {
-                  Navigator.of(context).pop();
-                  ScaffoldMessenger.of(context).showSnackBar(
-                      SnackBar(content: Text(response2.data["message"])));
-                }
-              } on DioError catch (error) {
-                Navigator.of(context).pop();
-                ScaffoldMessenger.of(context).showSnackBar(
-                    SnackBar(content: Text(error.response!.data["message"])));
-              }
-            } else {
-              Navigator.of(context).pop();
+            if (int.parse(currentTime.toString().split(" ")[1].split(":")[0]) >
+                13) {
               Navigator.of(context).pop();
               return ScaffoldMessenger.of(context).showSnackBar(SnackBar(
                   content: Text(
-                      "Please, try again!\n${response1.data["message"]}")));
+                      "Invalid timing!\nSorry, but you aren't allowed to place an order after 13:59 (GMT+01)")));
+            } else {
+              if (response1.data["success"]) {
+                constantValues.tempItemsOrdered.clear();
+                constantValues.cart.forEach((element) {
+                  constantValues.tempItemsOrdered.add(element);
+                });
+                try {
+                  var response2 =
+                      await dio.post("$backendUrl/place-order", data: {
+                    "email": email,
+                    "orderid": orderid,
+                    "status": "awaiting rider",
+                    "owneremail": email,
+                    "ownerfullname": fullname,
+                    "ownerphonenumber": phone,
+                    "deliveryaddress": address,
+                    "closestlandmark": landmark,
+                    "apartment": apartment,
+                    "city": city,
+                    "province": province,
+                    "country": country,
+                    "paid": podEligibility &&
+                            constantValues.modeOfPayment == "Pay on delivery"
+                        ? false
+                        : true,
+                    "items": constantValues.tempItemsOrdered,
+                    "total": total,
+                  });
+                  if (response2.data["success"]) {
+                    Navigator.of(context).pop();
+                    Navigator.of(context).pop();
+                    constantValues.cart.clear();
+                    Fluttertoast.showToast(
+                      msg: response2.data["message"],
+                      toastLength: Toast.LENGTH_LONG,
+                      webPosition: "center",
+                    );
+                    context.goNamed("home");
+                  } else {
+                    Navigator.of(context).pop();
+                    ScaffoldMessenger.of(context).showSnackBar(
+                        SnackBar(content: Text(response2.data["message"])));
+                  }
+                } on DioError catch (error) {
+                  Navigator.of(context).pop();
+                  ScaffoldMessenger.of(context).showSnackBar(
+                      SnackBar(content: Text(error.response!.data["message"])));
+                }
+              } else {
+                Navigator.of(context).pop();
+                Navigator.of(context).pop();
+                return ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                    content: Text(
+                        "Please, try again!\n${response1.data["message"]}")));
+              }
             }
-            // }
           }
         } else {
           ScaffoldMessenger.of(context)

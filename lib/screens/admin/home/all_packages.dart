@@ -97,7 +97,7 @@ class _AllPackagesState extends State<AllPackages> {
     final fontStyle1b =
         GoogleFonts.poppins(textStyle: TextStyle(fontWeight: FontWeight.w400));
     return SizedBox(
-      height: size.height,
+      height: size.height * 0.99,
       child: constantValues.allPackages.isNotEmpty
           ? RefreshIndicator(
               onRefresh: _refresh,

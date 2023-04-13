@@ -142,40 +142,40 @@ class _OrderInfoAdminState extends State<OrderInfoAdmin> {
               subtitle: Text("Delivery address", style: fontStyle1b),
             ),
             ListTile(
-              title: Text(
+              title: Text("Closest landmark", style: fontStyle1),
+              subtitle: Text(
                   widget.order["closestlandmark"] != ""
                       ? widget.order["closestlandmark"]
                       : "--",
-                  style: fontStyle1),
-              subtitle: Text("Closest landmark", style: fontStyle1b),
+                  style: fontStyle1b),
             ),
             ListTile(
-              title: Text(
+              title: Text("Apartment", style: fontStyle1),
+              subtitle: Text(
                   widget.order["apartment"] != ""
                       ? widget.order["apartment"]
                       : "--",
-                  style: fontStyle1),
-              subtitle: Text("Apartment", style: fontStyle1b),
+                  style: fontStyle1b),
             ),
             ListTile(
-              title: Text(
+              title: Text("City", style: fontStyle1),
+              subtitle: Text(
                   widget.order["city"] != "" ? widget.order["city"] : "--",
-                  style: fontStyle1),
-              subtitle: Text("City", style: fontStyle1b),
+                  style: fontStyle1b),
             ),
             ListTile(
-              title: Text(
+              title: Text("Province", style: fontStyle1),
+              subtitle: Text(
                   widget.order["province"] != ""
                       ? widget.order["province"]
                       : "--",
-                  style: fontStyle1),
-              subtitle: Text("Province", style: fontStyle1b),
+                  style: fontStyle1b),
             ),
             ListTile(
-              title: Text(
+              title: Text("Country", style: fontStyle1),
+              subtitle: Text(
                   widget.order["city"] != "" ? widget.order["country"] : "--",
-                  style: fontStyle1),
-              subtitle: Text("Country", style: fontStyle1b),
+                  style: fontStyle1b),
             ),
           ]),
         ),
@@ -216,12 +216,12 @@ class _OrderInfoAdminState extends State<OrderInfoAdmin> {
                   Text("${widget.order["estimateddate"]}", style: fontStyle1b),
             ),
             ListTile(
-              title: Text(
+              title: Text("Dispatcher", style: fontStyle1),
+              subtitle: Text(
                   widget.order["dispatcher"] != ""
                       ? widget.order["dispatcher"]
                       : "--",
-                  style: fontStyle1),
-              subtitle: Text("Dispatcher"),
+                  style: fontStyle1b),
               trailing: IconButton(
                 tooltip: "Copy",
                 icon: Icon(Icons.copy,

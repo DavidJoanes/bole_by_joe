@@ -21,10 +21,6 @@ class Refund extends StatefulWidget {
 class _RefundState extends State<Refund> {
   final constantValues = Get.find<Constants>();
   Dio dio = Dio();
-  final firstNameController = TextEditingController();
-  final lastNameController = TextEditingController();
-  final emailController = TextEditingController();
-  final phoneNumberController = TextEditingController();
   late var order = ValueNotifier(constantValues.tempSelectCancelledOrder);
 
   var cancelled = {
@@ -94,9 +90,9 @@ class _RefundState extends State<Refund> {
   Widget mixedScreen(BuildContext context) {
     Size size = MediaQuery.of(context).size;
     final fontStyle1 =
-        GoogleFonts.poppins(textStyle: TextStyle(fontWeight: FontWeight.bold));
+        GoogleFonts.poppins(textStyle: TextStyle(fontWeight: FontWeight.w600));
     final fontStyle1b =
-        GoogleFonts.poppins(textStyle: TextStyle(fontWeight: FontWeight.w400));
+        GoogleFonts.poppins(textStyle: TextStyle(fontWeight: FontWeight.w300));
     return Column(
       children: [
         ListTile(
@@ -140,7 +136,7 @@ class _RefundState extends State<Refund> {
           ),
         ),
         SizedBox(
-            height: size.height,
+            height: size.height * 0.8,
             child: RefreshIndicator(
               onRefresh: _refresh,
               child: ListView.builder(
@@ -157,7 +153,7 @@ class _RefundState extends State<Refund> {
                                 "Refund Application for order-${constantValues.refundHistory[index]["orderid"]}",
                                 style: fontStyle1),
                             subtitle: Text(
-                                "Application date: ${constantValues.refundHistory[index]["date"]}",
+                                "Date: ${constantValues.refundHistory[index]["date"]}",
                                 style: fontStyle1b),
                             trailing: constantValues.refundHistory[index]
                                         ["status"] ==

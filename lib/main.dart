@@ -10,6 +10,7 @@ import 'controllers/controller.dart';
 import 'controllers/theme_modifier.dart';
 import 'screens/admin/home/admin_dashboard.dart';
 import 'screens/admin/home/all_accounts.dart';
+import 'screens/admin/home/all_complaints.dart';
 import 'screens/admin/home/all_data_logs.dart';
 import 'screens/admin/home/all_orders.dart';
 import 'screens/admin/home/all_packages.dart';
@@ -17,6 +18,7 @@ import 'screens/admin/home/all_refunds.dart';
 import 'screens/admin/signin/signin.dart';
 import 'screens/error_page.dart';
 import 'screens/user/home/cartalog.dart';
+import 'screens/user/home/complaint.dart';
 import 'screens/user/home/edit_profile.dart';
 import 'screens/user/home/home_frame.dart';
 import 'screens/user/home/package_details.dart';
@@ -100,6 +102,17 @@ class MyApp extends StatelessWidget {
             return "/signin";
           }
           return "/profile/edit-profile";
+        }),
+      ),
+      GoRoute(
+        name: "complaint-history",
+        path: "/profile/complaint-history",
+        builder: (context, state) => Complaint(),
+        redirect: ((context, state) {
+          if (constantValues.userData.isEmpty) {
+            return "/signin";
+          }
+          return "/profile/complaint-history";
         }),
       ),
       GoRoute(
@@ -211,6 +224,17 @@ class MyApp extends StatelessWidget {
             return "/admin-signin";
           }
           return "/all-refunds";
+        }),
+      ),
+      GoRoute(
+        name: "all-complaints",
+        path: "/all-complaints",
+        builder: (context, state) => AllComplaints(),
+        redirect: ((context, state) {
+          if (adminLoggedIn == false) {
+            return "/admin-signin";
+          }
+          return "/all-complaints";
         }),
       ),
       GoRoute(

@@ -146,6 +146,15 @@ class _ProfileState extends State<Profile> {
                 tileColor: constantValues.greyColor,
               ),
               ListTile(
+                leading: Icon(Icons.info_outline_rounded,
+                    color: constantValues.primaryColor),
+                title: Text("Complaint", style: fontStyle1),
+                trailing: Icon(Icons.arrow_right_outlined),
+                onTap: () {
+                  _complaint();
+                },
+              ),
+              ListTile(
                 leading: Icon(Icons.attach_money_outlined,
                     color: constantValues.primaryColor),
                 title: Text("Refund", style: fontStyle1),
@@ -320,6 +329,10 @@ class _ProfileState extends State<Profile> {
 
   _editProfile() {
     context.goNamed("edit-profile");
+  }
+
+  _complaint() {
+    context.goNamed("complaint-history");
   }
 
   _refund() {

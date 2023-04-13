@@ -2,10 +2,12 @@
 
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:get/get.dart';
 import 'package:go_router/go_router.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 
 import '../../../controllers/data_controller.dart';
@@ -31,6 +33,27 @@ class _HomeState extends State<Home> {
   TextEditingController searchController = TextEditingController();
   late ValueNotifier results = ValueNotifier(constantValues.searchResult);
   Dio dio = Dio();
+  int subTotal = 0;
+
+  _calculateTotal() {
+    subTotal = 0;
+    if (constantValues.cart.isNotEmpty) {
+      for (var item in constantValues.cart) {
+        setState(() {
+          subTotal += item["price"] as int;
+        });
+      }
+    } else {
+      setState(() {
+        subTotal = 0;
+      });
+    }
+  }
+
+  currencyIcon(context) {
+    var format = NumberFormat.simpleCurrency(name: "NGN");
+    return format;
+  }
 
   _fetchDiscountedPacks() async {
     try {
@@ -294,39 +317,123 @@ class _HomeState extends State<Home> {
   Widget desktopScreen(BuildContext context) {
     Size size = MediaQuery.of(context).size;
     PackageData object = PackageData(context);
-    return Column(
-      children: [
-        // customAppBar(context),
-        SizedBox(height: size.height * 0.02),
-        Form(
-          key: _formKey,
-          child: InputFieldA2(
-              controller: searchController,
-              width: size.width * 0.9,
-              title: "Search",
-              enabled: true,
-              hintIcon: IconButton(
-                tooltip: "Search",
-                icon: Icon(
-                  Icons.search_outlined,
-                  color: constantValues.primaryColor,
-                ),
-                onPressed: () async {
-                  await _search();
-                },
-              )),
+    final fontStyle1 =
+        GoogleFonts.poppins(textStyle: TextStyle(fontWeight: FontWeight.w600));
+    final fontStyle1b =
+        GoogleFonts.poppins(textStyle: TextStyle(fontWeight: FontWeight.w400));
+    return Row(mainAxisAlignment: MainAxisAlignment.spaceEvenly, children: [
+      SizedBox(
+        width: size.width * 0.75,
+        child: Column(
+          children: [
+            // customAppBar(context),
+            SizedBox(height: size.height * 0.02),
+            Form(
+              key: _formKey,
+              child: Padding(
+                padding: EdgeInsets.symmetric(horizontal: size.width * 0.05),
+                child: InputFieldA2(
+                    controller: searchController,
+                    width: size.width * 0.9,
+                    title: "Search",
+                    enabled: true,
+                    hintIcon: IconButton(
+                      tooltip: "Search",
+                      icon: Icon(
+                        Icons.search_outlined,
+                        color: constantValues.primaryColor,
+                      ),
+                      onPressed: () async {
+                        await _search();
+                      },
+                    )),
+              ),
+            ),
+            SizedBox(height: size.height * 0.01),
+            BestPackages(
+                object: constantValues.bestPacks,
+                object2: object.packages,
+                isDesktop: true),
+            AllPacks(
+              object: constantValues.normalPacks,
+              isDesktop: true,
+            )
+          ],
         ),
-        SizedBox(height: size.height * 0.01),
-        BestPackages(
-            object: constantValues.bestPacks,
-            object2: object.packages,
-            isDesktop: true),
-        AllPacks(
-          object: constantValues.normalPacks,
-          isDesktop: true,
-        )
-      ],
-    );
+      ),
+      SizedBox(
+          width: size.width * 0.25,
+          child: Column(
+            children: [
+              ListTile(
+                title: Text("Cart", style: fontStyle1),
+                trailing: IconButton(
+                  icon: Icon(Icons.info_outline,
+                      color: constantValues.errorColor),
+                  onPressed: () {
+                    ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                        content:
+                            Text("Swipe left to remove item from cart..")));
+                  },
+                ),
+              ),
+              SizedBox(
+                height: size.height,
+                child: constantValues.cart.isNotEmpty
+                    ? ListView.builder(
+                        scrollDirection: Axis.vertical,
+                        itemCount: constantValues.cart.length,
+                        itemBuilder: (context, index) {
+                          return Padding(
+                            padding: EdgeInsets.symmetric(
+                                vertical: size.height * 0.01,
+                                horizontal: size.width * 0.02),
+                            child: Slidable(
+                              key: ValueKey(index),
+                              endActionPane: ActionPane(
+                                motion: BehindMotion(),
+                                children: [
+                                  SlidableAction(
+                                    onPressed: (context) => _remove(index),
+                                    backgroundColor: constantValues.errorColor,
+                                    foregroundColor: constantValues.whiteColor,
+                                    icon: Icons.delete,
+                                    label: "remove",
+                                  ),
+                                ],
+                              ),
+                              child: Card(
+                                elevation: 4,
+                                child: ListTile(
+                                  leading: ProfilePicture(
+                                    radius: 20,
+                                    image: constantValues.cart[index]
+                                        ["coverimage"]["url"],
+                                    onClicked: () {},
+                                  ),
+                                  title: Text(
+                                      (constantValues.cart[index]["packagename"]
+                                              as String)
+                                          .toTitleCase(),
+                                      style: fontStyle1),
+                                  subtitle: Text(
+                                      "Qty: ${constantValues.cart[index]["qty"]}"),
+                                  trailing: Text(
+                                    "${currencyIcon(context).currencySymbol}${constantValues.cart[index]["price"]}",
+                                    style: fontStyle1,
+                                  ),
+                                ),
+                              ),
+                            ),
+                          );
+                        })
+                    : Center(
+                        child:
+                            Text("Your cart is empty..", style: fontStyle1b)),
+              )
+            ],
+          ))
+    ]);
   }
 
   Widget mixedScreen(BuildContext context) {
@@ -476,6 +583,17 @@ class _HomeState extends State<Home> {
         }
       }
       return searchResults();
+    }
+  }
+
+  _remove(index) {
+    for (var item in constantValues.cart) {
+      if (constantValues.cart[index]["packagename"] == item["packagename"]) {
+        setState(() {
+          constantValues.cart.remove(item);
+          _calculateTotal();
+        });
+      }
     }
   }
 }

@@ -121,7 +121,9 @@ class _BestPackagesState extends State<BestPackages> {
                                             style: fontstyle1b),
                                         SizedBox(height: 5),
                                         SizedBox(
-                                          width: widget.isDesktop ? size.width*0.15 : size.width*0.23,
+                                          width: widget.isDesktop
+                                              ? size.width * 0.15
+                                              : size.width * 0.23,
                                           child: Text(
                                             widget.object[index]["text3"],
                                             style: fontstyle1d,
@@ -187,6 +189,7 @@ class _BestPackagesState extends State<BestPackages> {
                                                               "message"])));
                                                 }
                                               } else {
+                                                context.goNamed("signin");
                                                 return ScaffoldMessenger.of(
                                                         context)
                                                     .showSnackBar(SnackBar(

@@ -3,6 +3,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:get/get.dart';
+import 'package:go_router/go_router.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:intl/intl.dart';
 
@@ -109,8 +110,8 @@ class _CartalogState extends State<Cartalog> {
           trailing: IconButton(
             icon: Icon(Icons.info_outline, color: constantValues.errorColor),
             onPressed: () {
-              ScaffoldMessenger.of(context).showSnackBar(
-                  SnackBar(content: Text("Swipe left to remove item from cart..")));
+              ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                  content: Text("Swipe left to remove item from cart..")));
             },
           ),
         ),
@@ -149,7 +150,9 @@ class _CartalogState extends State<Cartalog> {
                               onClicked: () {},
                             ),
                             title: Text(
-                                (constantValues.cart[index]["packagename"] as String).toTitleCase(),
+                                (constantValues.cart[index]["packagename"]
+                                        as String)
+                                    .toTitleCase(),
                                 style: fontStyle1),
                             subtitle: Text(
                                 "Qty: ${constantValues.cart[index]["qty"]}"),
@@ -224,6 +227,7 @@ class _CartalogState extends State<Cartalog> {
     } else {
       ScaffoldMessenger.of(context).showSnackBar(SnackBar(
           content: Text("You are required to be signed in to proceed!")));
+      context.goNamed("signin");
     }
   }
 }

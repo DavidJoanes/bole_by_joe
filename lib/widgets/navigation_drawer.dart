@@ -83,6 +83,14 @@ class _CustomDrawerState extends State<CustomDrawer> {
               ),
               SizedBox(height: size.height * 0.02),
               ListTile(
+                leading: Icon(Icons.info),
+                title: Text("Complaints"),
+                onTap: () {
+                  context.goNamed("all-complaints");
+                },
+              ),
+              SizedBox(height: size.height * 0.02),
+              ListTile(
                 leading: Icon(Icons.date_range_outlined),
                 title: Text("Logs"),
                 onTap: () {

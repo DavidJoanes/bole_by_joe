@@ -265,7 +265,7 @@ class _PackageInfoState extends State<PackageInfo> {
                     controller: packageNameController,
                     width: size.width * 0.8,
                     title: "Package name",
-                    enabled: false,
+                    enabled: true,
                     hintIcon: Text('')),
                 SizedBox(height: size.height * 0.02),
                 InputFieldC(

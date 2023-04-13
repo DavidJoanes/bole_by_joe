@@ -67,6 +67,7 @@ class Constants extends GetxController {
   var allAccounts = [];
   var allLocations = [];
   var allRefunds = [];
+  var allComplaints = [];
   var allDataLogs = [];
   var bestPacks = [];
   var normalPacks = [];
@@ -79,6 +80,7 @@ class Constants extends GetxController {
   var itemsOrdered = [];
   var myLocations = [];
   var refundHistory = [];
+  var complaintHistory = [];
 
   String country = "Nigeria";
   String province = "Rivers";
